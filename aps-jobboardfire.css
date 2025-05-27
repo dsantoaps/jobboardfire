@@ -1,0 +1,26 @@
+/* APS header and footer */
+.header, .footer {
+  background-color: #1D75DE; /* APS blue */
+  color: white;
+}
+
+.header a, .footer a {
+  color: white;
+  text-decoration: none;
+}
+
+.header a:hover, .footer a:hover {
+  text-decoration: underline;
+}
+
+/* JobBoardFire specific changes */
+.l-navbar__logo {
+  width: 250px;
+}
+.jb-btn {
+  border-radius: 9999px;
+}
+.hero__title,
+.hero__subtitle {
+  color: #ffffff;
+}
