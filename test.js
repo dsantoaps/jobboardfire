@@ -13,7 +13,7 @@ console.log("Hello, world!");
       if (document.getElementById('aps-global-header')) return; // already added
   
       /* ----------  HEADER  ---------- */
-      const header = document.createElement('header');
+      const header = document.createElement('div');
       header.id    = 'aps-global-header';
       header.className =
         'fixed top-0 inset-x-0 bg-white shadow-md z-[60] ' + TW_HIDE;
