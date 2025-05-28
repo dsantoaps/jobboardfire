@@ -11,6 +11,264 @@
       console.error(`[APS Integration] Error in ${context}:`, error);
     }
     
+     // Add standalone styles to ensure proper styling regardless of external CSS
+     function addStandaloneStyles() {
+        try {
+          const styleEl = document.createElement('style');
+          styleEl.id = 'aps-standalone-styles';
+          styleEl.textContent = `
+            /* Reset and base styles */
+            .aps-bs * {
+              box-sizing: border-box;
+            }
+            
+            /* Colors */
+            :root {
+              --aps-mariner: #1D75DE;
+              --aps-steel-blue: #04355F;
+              --aps-white: #FFFFFF;
+              --aps-soft-grey: #F3F4F6;
+            }
+            
+            /* Header styles */
+            .aps-bs .navbar {
+              height: 8.75rem;
+              background-color: var(--aps-mariner);
+              transition: height .3s ease-out;
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+              z-index: 1100;
+              position: relative;
+            }
+            
+            .aps-bs .navbar .container {
+              max-width: 1440px;
+              margin: 0 auto;
+              padding: 0 2rem;
+              height: 100%;
+              display: flex;
+              align-items: center;
+            }
+            
+            .aps-bs .navbar-brand {
+              margin-right: 1.5rem;
+            }
+            
+            .aps-bs .navbar-brand img {
+              width: auto;
+              height: 2.75rem;
+            }
+            
+            .aps-bs .navbar-nav {
+              display: flex;
+              align-items: center;
+              margin: 0 auto;
+            }
+            
+            .aps-bs .nav-link {
+              font-family: 'Inter', sans-serif;
+              font-size: 1rem;
+              font-weight: 600;
+              line-height: 1.5;
+              color: var(--aps-white);
+              margin: 0 1.5rem;
+              padding: 0.25rem 0;
+              text-decoration: none;
+              border-bottom: 1px solid transparent;
+              transition: border-bottom-color .2s ease-out;
+            }
+            
+            .aps-bs .nav-link:hover {
+              color: var(--aps-white);
+              border-bottom-color: var(--aps-white);
+            }
+            
+            /* Footer styles */
+            .aps-bs .footer-top {
+              background-color: var(--aps-mariner);
+              padding: 2rem;
+              color: var(--aps-white);
+            }
+            
+            .aps-bs .footer-bottom {
+              background-color: var(--aps-steel-blue);
+              padding: 1.5rem;
+              color: var(--aps-white);
+            }
+            
+            /* Grid system */
+            .aps-bs .container {
+              width: 100%;
+              padding-right: 15px;
+              padding-left: 15px;
+              margin-right: auto;
+              margin-left: auto;
+            }
+            
+            @media (min-width: 576px) {
+              .aps-bs .container {
+                max-width: 540px;
+              }
+            }
+            
+            @media (min-width: 768px) {
+              .aps-bs .container {
+                max-width: 720px;
+              }
+            }
+            
+            @media (min-width: 992px) {
+              .aps-bs .container {
+                max-width: 960px;
+              }
+            }
+            
+            @media (min-width: 1200px) {
+              .aps-bs .container {
+                max-width: 1140px;
+              }
+            }
+            
+            .aps-bs .row {
+              display: flex;
+              flex-wrap: wrap;
+              margin-right: -15px;
+              margin-left: -15px;
+            }
+            
+            .aps-bs .col-12 {
+              flex: 0 0 100%;
+              max-width: 100%;
+              padding-right: 15px;
+              padding-left: 15px;
+            }
+            
+            @media (min-width: 768px) {
+              .aps-bs .col-md-3 {
+                flex: 0 0 25%;
+                max-width: 25%;
+                padding-right: 15px;
+                padding-left: 15px;
+              }
+              
+              .aps-bs .col-md-6 {
+                flex: 0 0 50%;
+                max-width: 50%;
+                padding-right: 15px;
+                padding-left: 15px;
+              }
+            }
+            
+            /* Utility classes */
+            .aps-bs .d-flex {
+              display: flex !important;
+            }
+            
+            .aps-bs .flex-column {
+              flex-direction: column !important;
+            }
+            
+            .aps-bs .flex-row {
+              flex-direction: row !important;
+            }
+            
+            .aps-bs .justify-content-center {
+              justify-content: center !important;
+            }
+            
+            .aps-bs .justify-content-md-end {
+              justify-content: flex-end !important;
+            }
+            
+            .aps-bs .align-items-center {
+              align-items: center !important;
+            }
+            
+            .aps-bs .align-items-start {
+              align-items: flex-start !important;
+            }
+            
+            .aps-bs .mb-0 {
+              margin-bottom: 0 !important;
+            }
+            
+            .aps-bs .mb-3 {
+              margin-bottom: 1rem !important;
+            }
+            
+            .aps-bs .mb-4 {
+              margin-bottom: 1.5rem !important;
+            }
+            
+            .aps-bs .me-md-3 {
+              margin-right: 1rem !important;
+            }
+            
+            .aps-bs .text-md-end {
+              text-align: right !important;
+            }
+            
+            /* Responsive adjustments */
+            @media (max-width: 991.98px) {
+              .aps-bs .navbar {
+                height: 6rem;
+              }
+              
+              .aps-bs .navbar-collapse {
+                position: fixed;
+                top: 6rem;
+                left: 0;
+                width: 100%;
+                height: calc(100vh - 6rem);
+                background-color: var(--aps-mariner);
+                padding: 1.5rem;
+                overflow-y: auto;
+                z-index: 1050;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+              }
+              
+              .aps-bs .navbar-collapse.show {
+                transform: translateX(0);
+              }
+              
+              .aps-bs .navbar-nav {
+                flex-direction: column;
+                align-items: flex-start;
+              }
+              
+              .aps-bs .nav-link {
+                width: 100%;
+                margin: 0;
+                padding: 1rem 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+              }
+            }
+            
+            @media (min-width: 992px) {
+              .aps-bs .d-lg-none {
+                display: none !important;
+              }
+              
+              .aps-bs .d-lg-flex {
+                display: flex !important;
+              }
+            }
+            
+            @media (max-width: 991.98px) {
+              .aps-bs .d-lg-none {
+                display: block !important;
+              }
+              
+              .aps-bs .d-none.d-lg-flex {
+                display: none !important;
+              }
+            }
+          `;
+          document.head.appendChild(styleEl);
+        } catch (err) {
+          logError('addStandaloneStyles', err);
+        }
+      }
     // Add critical inline styles to ensure basic styling
     function addCriticalStyles() {
       try {
@@ -529,6 +787,8 @@
   // Main initialization
   // ------------------------------------------------------------
   function init() {
+    // Add standalone styles first
+    addStandaloneStyles();
     // Add critical styles first
     addCriticalStyles();
     
