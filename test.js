@@ -11,6 +11,156 @@
       console.error(`[APS Integration] Error in ${context}:`, error);
     }
     
+    // Add critical inline styles to ensure basic styling
+    function addCriticalStyles() {
+      try {
+        const styleEl = document.createElement('style');
+        styleEl.id = 'aps-critical-styles';
+        styleEl.textContent = `
+          .aps-bs .navbar {
+            background-color: #1D75DE;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1100;
+          }
+          .aps-bs .navbar-brand img {
+            max-height: 44px;
+            width: auto;
+          }
+          .aps-bs .nav-link {
+            color: white;
+            font-weight: 600;
+          }
+          .aps-bs .navbar-toggler {
+            color: white;
+            border: none;
+          }
+          .aps-bs .footer-top {
+            background-color: #1D75DE;
+            color: white;
+            padding: 2rem;
+          }
+          .aps-bs .footer-bottom {
+            background-color: #04355F;
+            color: white;
+            padding: 1.5rem;
+          }
+          .aps-bs .footer a {
+            color: white;
+            text-decoration: none;
+          }
+          .aps-bs .footer-social-link {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.26);
+          }
+          .aps-bs .container {
+            width: 100%;
+            padding-right: var(--bs-gutter-x, 0.75rem);
+            padding-left: var(--bs-gutter-x, 0.75rem);
+            margin-right: auto;
+            margin-left: auto;
+          }
+          @media (min-width: 576px) {
+            .aps-bs .container {
+              max-width: 540px;
+            }
+          }
+          @media (min-width: 768px) {
+            .aps-bs .container {
+              max-width: 720px;
+            }
+          }
+          @media (min-width: 992px) {
+            .aps-bs .container {
+              max-width: 960px;
+            }
+          }
+          @media (min-width: 1200px) {
+            .aps-bs .container {
+              max-width: 1140px;
+            }
+          }
+          @media (min-width: 1400px) {
+            .aps-bs .container {
+              max-width: 1320px;
+            }
+          }
+          .aps-bs .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: calc(var(--bs-gutter-x) * -0.5);
+            margin-left: calc(var(--bs-gutter-x) * -0.5);
+          }
+          .aps-bs .col-12 {
+            flex: 0 0 auto;
+            width: 100%;
+          }
+          @media (min-width: 768px) {
+            .aps-bs .col-md-3 {
+              flex: 0 0 auto;
+              width: 25%;
+            }
+            .aps-bs .col-md-6 {
+              flex: 0 0 auto;
+              width: 50%;
+            }
+          }
+          .aps-bs .d-flex {
+            display: flex !important;
+          }
+          .aps-bs .flex-column {
+            flex-direction: column !important;
+          }
+          .aps-bs .flex-row {
+            flex-direction: row !important;
+          }
+          .aps-bs .justify-content-center {
+            justify-content: center !important;
+          }
+          .aps-bs .justify-content-md-end {
+            justify-content: flex-end !important;
+          }
+          .aps-bs .align-items-center {
+            align-items: center !important;
+          }
+          .aps-bs .align-items-start {
+            align-items: flex-start !important;
+          }
+          .aps-bs .mb-0 {
+            margin-bottom: 0 !important;
+          }
+          .aps-bs .mb-3 {
+            margin-bottom: 1rem !important;
+          }
+          .aps-bs .mb-4 {
+            margin-bottom: 1.5rem !important;
+          }
+          .aps-bs .me-md-3 {
+            margin-right: 1rem !important;
+          }
+          .aps-bs .text-md-end {
+            text-align: right !important;
+          }
+          .aps-bs .img-fluid {
+            max-width: 100%;
+            height: auto;
+          }
+          .aps-bs .opacity-0 {
+            opacity: 0 !important;
+          }
+          .aps-bs .pointer-events-none {
+            pointer-events: none !important;
+          }
+        `;
+        document.head.appendChild(styleEl);
+      } catch (err) {
+        logError('addCriticalStyles', err);
+      }
+    }
+    
     // Ensure Font Awesome is loaded for icons
     function ensureFontAwesome() {
       try {
@@ -78,21 +228,24 @@
         const headerWrapper = document.createElement('div');
         headerWrapper.id = 'aps-global-header';
         headerWrapper.className = 'aps-bs ' + HIDE_CLASS;
+        headerWrapper.style.cssText = 'position: relative; z-index: 1100;';
         
         // Header HTML content
         headerWrapper.innerHTML = `
-          <header class="navbar navbar-expand-lg fixed-top">
+          <header class="navbar navbar-expand-lg" style="background-color: #1D75DE; color: white; padding: 1rem 0;">
             <div class="container d-flex align-items-center justify-content-between">
               <!-- Logo -->
-              <a href="/" class="navbar-brand">
+              <a href="/" class="navbar-brand" style="margin-right: 1.5rem;">
                 <img src="https://psychology.org.au/APS/assets/images/logo-aps-large.svg" 
                      alt="Australian Psychological Society Logo" 
                      class="d-none d-xxl-block" 
-                     width="190" height="44">
+                     width="190" height="44"
+                     style="max-height: 44px; width: auto;">
                 <img src="https://psychology.org.au/APS/assets/images/logo-aps-small.svg" 
                      alt="APS Logo" 
                      class="d-block d-xxl-none" 
-                     width="98" height="36">
+                     width="98" height="36"
+                     style="max-height: 36px; width: auto;">
               </a>
               
               <!-- Navbar toggler for mobile -->
@@ -102,34 +255,35 @@
                       data-bs-target="#navbarContent" 
                       aria-controls="navbarContent" 
                       aria-expanded="false" 
-                      aria-label="Toggle navigation">
+                      aria-label="Toggle navigation"
+                      style="color: white; border: none;">
                 <i class="fa-solid fa-bars"></i>
               </button>
               
               <!-- Navbar collapse (navigation links) -->
               <div class="collapse navbar-collapse" id="navbarContent">
-                <nav class="navbar-nav mx-auto">
-                  <a class="nav-link h5" href="https://psychology.org.au/psychology">
+                <nav class="navbar-nav mx-auto" style="margin: 0 auto;">
+                  <a class="nav-link h5" href="https://psychology.org.au/psychology" style="color: white; font-weight: 600; margin: 0 1rem;">
                     <span>Psychology</span>
                     <i class="fa-solid fa-chevron-right d-lg-none"></i>
                   </a>
-                  <a class="nav-link h5" href="https://psychology.org.au/for-the-public/psychology-topics">
+                  <a class="nav-link h5" href="https://psychology.org.au/for-the-public/psychology-topics" style="color: white; font-weight: 600; margin: 0 1rem;">
                     <span>Topics</span>
                     <i class="fa-solid fa-chevron-right d-lg-none"></i>
                   </a>
-                  <a class="nav-link h5" href="https://psychology.org.au/community">
+                  <a class="nav-link h5" href="https://psychology.org.au/community" style="color: white; font-weight: 600; margin: 0 1rem;">
                     <span>Community</span>
                     <i class="fa-solid fa-chevron-right d-lg-none"></i>
                   </a>
-                  <a class="nav-link h5" href="https://psychology.org.au/members">
+                  <a class="nav-link h5" href="https://psychology.org.au/members" style="color: white; font-weight: 600; margin: 0 1rem;">
                     <span>Members</span>
                     <i class="fa-solid fa-chevron-right d-lg-none"></i>
                   </a>
-                  <a class="nav-link h5" href="https://psychology.org.au/training-events">
+                  <a class="nav-link h5" href="https://psychology.org.au/training-events" style="color: white; font-weight: 600; margin: 0 1rem;">
                     <span>Education</span>
                     <i class="fa-solid fa-chevron-right d-lg-none"></i>
                   </a>
-                  <a class="nav-link h5" href="https://psychology.org.au/about-us">
+                  <a class="nav-link h5" href="https://psychology.org.au/about-us" style="color: white; font-weight: 600; margin: 0 1rem;">
                     <span>About APS</span>
                     <i class="fa-solid fa-chevron-right d-lg-none"></i>
                   </a>
@@ -189,112 +343,112 @@
         footerWrapper.id = 'aps-global-footer';
         footerWrapper.className = 'aps-bs ' + HIDE_CLASS;
         
-        // Footer HTML content
+        // Footer HTML content with inline styles
         footerWrapper.innerHTML = `
-          <footer role="contentinfo" class="footer">
+          <footer role="contentinfo" class="footer" style="width: 100%; margin-bottom: 0;">
             <!-- Top Section with Mariner Background -->
-            <div class="footer-top">
+            <div class="footer-top" style="background-color: #1D75DE; color: white; padding: 2rem;">
               <div class="container">
                 <div class="row">
                   <!-- ACNC Logo Column -->
                   <div class="col-12 col-md-3 d-flex align-items-start">
-                    <a href="https://www.acnc.gov.au/charity/charities/edbc7be7-c162-ec11-8f8e-00224812259b/profile" rel="noopener">
-                      <img src="https://psychology.org.au/APS/assets/images/acnc-logo.png" alt="ACNC Logo" width="180" height="180" class="acnc-logo">
+                    <a href="https://www.acnc.gov.au/charity/charities/edbc7be7-c162-ec11-8f8e-00224812259b/profile" rel="noopener" style="color: white; text-decoration: none;">
+                      <img src="https://psychology.org.au/APS/assets/images/acnc-logo.png" alt="AC
+                      <img src="https://psychology.org.au/APS/assets/images/acnc-logo.png" alt="ACNC Logo" width="180" height="180" class="acnc-logo" style="width: 180px; height: 180px;">
+                  </a>
+                </div>
+                
+                <!-- Navigation Links Column -->
+                <div class="col-12 col-md-3">
+                  <nav class="footer-links" aria-label="Footer Navigation" style="display: flex; flex-direction: column; align-items: flex-start;">
+                    <div class="footer-link-group" style="width: 100%;">
+                      <a href="https://psychology.org.au/members" class="footer-parent-link" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 1rem; font-weight: 700; display: block; margin-bottom: 0.5rem; text-decoration: none; color: white;">For members</a>
+                      <div class="footer-child-links" style="display: flex; flex-direction: column;">
+                        <a href="https://groups.psychology.org.au/" class="footer-child-link" style="font-size: 0.875rem; margin-bottom: 0.25rem; text-decoration: none; color: white;">Groups</a>
+                        <a href="https://psychology.org.au/for-members/resource-finder" class="footer-child-link" style="font-size: 0.875rem; margin-bottom: 0.25rem; text-decoration: none; color: white;">Resource finder</a>
+                        <a href="https://psychology.org.au/for-members/member-advice/professional-advice" class="footer-child-link" style="font-size: 0.875rem; margin-bottom: 0.25rem; text-decoration: none; color: white;">Advisory service</a>
+                        <a href="https://community.psychology.org.au/home" class="footer-child-link" style="font-size: 0.875rem; margin-bottom: 0.25rem; text-decoration: none; color: white;">PsyCommunity</a>
+                      </div>
+                    </div>
+                    <div class="footer-link-group" style="width: 100%; margin-top: 2.1875rem;">
+                      <a href="https://psychology.org.au/for-the-public" class="footer-parent-link" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 1rem; font-weight: 700; display: block; margin-bottom: 0.5rem; text-decoration: none; color: white;">Community</a>
+                      <div class="footer-child-links" style="display: flex; flex-direction: column;">
+                        <a href="https://psychology.org.au/about-us/what-we-do/advocacy/advocacy-social-issues" class="footer-child-link" style="font-size: 0.875rem; margin-bottom: 0.25rem; text-decoration: none; color: white;">Advocating on social issues</a>
+                        <a href="https://psychology.org.au/about-us/what-we-do/advocacy/position-statements" class="footer-child-link" style="font-size: 0.875rem; margin-bottom: 0.25rem; text-decoration: none; color: white;">Position statements</a>
+                        <a href="https://psychology.org.au/find-a-psychologist" class="footer-child-link" style="font-size: 0.875rem; margin-bottom: 0.25rem; text-decoration: none; color: white;">Find a Psychologist</a>
+                      </div>
+                    </div>
+                  </nav>
+                </div>
+                
+                <!-- Middle Right Links Column -->
+                <div class="col-12 col-md-3">
+                  <nav class="footer-middle-right" aria-label="Additional Footer Links" style="display: flex; flex-direction: column; align-items: flex-start;">
+                    <a href="https://psychology.org.au/training-and-events" class="footer-middle-right-link" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 1rem; font-weight: 700; text-decoration: none; color: white;">Training and events</a>
+                    <a href="https://www.psychxchange.com.au/jobsearch.aspx" class="footer-middle-right-link" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 1rem; font-weight: 700; text-decoration: none; color: white; margin-top: 2.1875rem;">PsychXchange</a>
+                    <a href="https://psychology.org.au/about-us/news-and-media/advertise-with-us" class="footer-middle-right-link" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 1rem; font-weight: 700; text-decoration: none; color: white; margin-top: 2.1875rem;">Advertise with us</a>
+                    <a href="https://psychology.org.au/about-us/contact-us" class="footer-middle-right-link" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 1rem; font-weight: 700; text-decoration: none; color: white; margin-top: 2.1875rem;">Contact us</a>
+                  </nav>
+                </div>
+                
+                <!-- Social Links Column -->
+                <div class="col-12 col-md-3 d-flex justify-content-md-end">
+                  <nav class="footer-social d-flex flex-row flex-md-column" aria-label="Social Media Links" style="gap: 0;">
+                    <a href="#" class="footer-social-link d-flex justify-content-center align-items-center" data-action="decrease-font" title="-A" style="width: 100%; padding: 0.75rem 1rem; text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, 0.26); color: white; display: flex; justify-content: center; align-items: center; font-size: 1rem;">
+                      <span class="footer-social-text" style="font-size: 1rem; line-height: 1.5;">-A</span>
                     </a>
-                  </div>
-                  
-                  <!-- Navigation Links Column -->
-                  <div class="col-12 col-md-3">
-                    <nav class="footer-links" aria-label="Footer Navigation">
-                      <div class="footer-link-group">
-                        <a href="https://psychology.org.au/members" class="footer-parent-link">For members</a>
-                        <div class="footer-child-links">
-                          <a href="https://groups.psychology.org.au/" class="footer-child-link">Groups</a>
-                          <a href="https://psychology.org.au/for-members/resource-finder" class="footer-child-link">Resource finder</a>
-                          <a href="https://psychology.org.au/for-members/member-advice/professional-advice" class="footer-child-link">Advisory service</a>
-                          <a href="https://community.psychology.org.au/home" class="footer-child-link">PsyCommunity</a>
-                        </div>
-                      </div>
-                      <div class="footer-link-group">
-                        <a href="https://psychology.org.au/for-the-public" class="footer-parent-link">Community</a>
-                        <div class="footer-child-links">
-                          <a href="https://psychology.org.au/about-us/what-we-do/advocacy/advocacy-social-issues" class="footer-child-link">Advocating on social issues</a>
-                          <a href="https://psychology.org.au/about-us/what-we-do/advocacy/position-statements" class="footer-child-link">Position statements</a>
-                          <a href="https://psychology.org.au/find-a-psychologist" class="footer-child-link">Find a Psychologist</a>
-                        </div>
-                      </div>
-                    </nav>
-                  </div>
-                  
-                  <!-- Middle Right Links Column -->
-                  <div class="col-12 col-md-3">
-                    <nav class="footer-middle-right" aria-label="Additional Footer Links">
-                      <a href="https://psychology.org.au/training-and-events" class="footer-middle-right-link">Training and events</a>
-                      <a href="https://www.psychxchange.com.au/jobsearch.aspx" class="footer-middle-right-link">PsychXchange</a>
-                      <a href="https://psychology.org.au/about-us/news-and-media/advertise-with-us" class="footer-middle-right-link">Advertise with us</a>
-                      <a href="https://psychology.org.au/about-us/contact-us" class="footer-middle-right-link">Contact us</a>
-                    </nav>
-                  </div>
-                  
-                  <!-- Social Links Column -->
-                  <div class="col-12 col-md-3 d-flex justify-content-md-end">
-                    <nav class="footer-social d-flex flex-row flex-md-column" aria-label="Social Media Links">
-                      <a href="#" class="footer-social-link d-flex justify-content-center align-items-center" data-action="decrease-font" title="-A">
-                        <span class="footer-social-text">-A</span>
-                      </a>
-                      <a href="#" class="footer-social-link d-flex justify-content-center align-items-center" data-action="increase-font" title="+A">
-                        <span class="footer-social-text">+A</span>
-                      </a>
-                      <a href="#" class="footer-social-link d-flex justify-content-center align-items-center" onclick="window.print(); return false;" title="Print">
-                        <i class="fa-solid fa-print" aria-hidden="true"></i>
-                      </a>
-                      <a href="https://www.facebook.com/AustralianPsychologicalSociety/" class="footer-social-link d-flex justify-content-center align-items-center" target="_blank" rel="noopener" title="Facebook">
-                        <i class="fa-brands fa-facebook" aria-hidden="true"></i>
-                      </a>
-                      <a href="https://twitter.com/austpsych" class="footer-social-link d-flex justify-content-center align-items-center" target="_blank" rel="noopener" title="Twitter">
-                        <i class="fa-brands fa-twitter" aria-hidden="true"></i>
-                      </a>
-                      <a href="https://www.linkedin.com/company/australian-psychological-society" class="footer-social-link d-flex justify-content-center align-items-center" target="_blank" rel="noopener" title="LinkedIn">
-                        <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
-                      </a>
-                      <a href="https://www.youtube.com/user/austpsychsociety" class="footer-social-link d-flex justify-content-center align-items-center" target="_blank" rel="noopener" title="YouTube">
-                        <i class="fa-brands fa-youtube" aria-hidden="true"></i>
-                      </a>
-                    </nav>
-                  </div>
+                    <a href="#" class="footer-social-link d-flex justify-content-center align-items-center" data-action="increase-font" title="+A" style="width: 100%; padding: 0.75rem 1rem; text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, 0.26); color: white; display: flex; justify-content: center; align-items: center; font-size: 1rem;">
+                      <span class="footer-social-text" style="font-size: 1rem; line-height: 1.5;">+A</span>
+                    </a>
+                    <a href="#" class="footer-social-link d-flex justify-content-center align-items-center" onclick="window.print(); return false;" title="Print" style="width: 100%; padding: 0.75rem 1rem; text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, 0.26); color: white; display: flex; justify-content: center; align-items: center; font-size: 1rem;">
+                      <i class="fa-solid fa-print" aria-hidden="true" style="font-size: 1rem; height: 1.25rem;"></i>
+                    </a>
+                    <a href="https://www.facebook.com/AustralianPsychologicalSociety/" class="footer-social-link d-flex justify-content-center align-items-center" target="_blank" rel="noopener" title="Facebook" style="width: 100%; padding: 0.75rem 1rem; text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, 0.26); color: white; display: flex; justify-content: center; align-items: center; font-size: 1rem;">
+                      <i class="fa-brands fa-facebook" aria-hidden="true" style="font-size: 1rem; height: 1.25rem;"></i>
+                    </a>
+                    <a href="https://twitter.com/austpsych" class="footer-social-link d-flex justify-content-center align-items-center" target="_blank" rel="noopener" title="Twitter" style="width: 100%; padding: 0.75rem 1rem; text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, 0.26); color: white; display: flex; justify-content: center; align-items: center; font-size: 1rem;">
+                      <i class="fa-brands fa-twitter" aria-hidden="true" style="font-size: 1rem; height: 1.25rem;"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/company/australian-psychological-society" class="footer-social-link d-flex justify-content-center align-items-center" target="_blank" rel="noopener" title="LinkedIn" style="width: 100%; padding: 0.75rem 1rem; text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, 0.26); color: white; display: flex; justify-content: center; align-items: center; font-size: 1rem;">
+                      <i class="fa-brands fa-linkedin-in" aria-hidden="true" style="font-size: 1rem; height: 1.25rem;"></i>
+                    </a>
+                    <a href="https://www.youtube.com/user/austpsychsociety" class="footer-social-link d-flex justify-content-center align-items-center" target="_blank" rel="noopener" title="YouTube" style="width: 100%; padding: 0.75rem 1rem; text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, 0.26); color: white; display: flex; justify-content: center; align-items: center; font-size: 1rem;">
+                      <i class="fa-brands fa-youtube" aria-hidden="true" style="font-size: 1rem; height: 1.25rem;"></i>
+                    </a>
+                  </nav>
                 </div>
               </div>
             </div>
-            
-            <!-- Bottom Section with Steel Blue Background -->
-            <div class="footer-bottom">
-              <div class="container">
-                <!-- Flags and Acknowledgement -->
-                <div class="row mb-4">
-                  <div class="col-12">
-                    <div class="d-flex flex-column flex-md-row align-items-center justify-content-center">
-                      <div class="footer-flags mb-3 mb-md-0 me-md-3">
-                        <img src="https://psychology.org.au/APS/assets/images/aboriginal-flag.svg" width="40" height="24" alt="Aboriginal Flag" class="img-fluid">
-                        <img src="https://psychology.org.au/APS/assets/images/torres-strait-islanders-flag.svg" width="40" height="24" alt="Torres Strait Islanders Flag" class="img-fluid">
-                      </div>
-                      <p class="acknowledgement mb-0">
-                        The APS acknowledge Aboriginal and Torres Strait Islander peoples as Australia's First People and Traditional Custodians and pay our respects to Elders past, present and emerging.
-                      </p>
+          </div>
+          
+          <!-- Bottom Section with Steel Blue Background -->
+          <div class="footer-bottom" style="background-color: #04355F; padding: 1.5rem; color: white;">
+            <div class="container">
+              <!-- Flags and Acknowledgement -->
+              <div class="row mb-4">
+                <div class="col-12">
+                  <div class="d-flex flex-column flex-md-row align-items-center justify-content-center">
+                    <div class="footer-flags mb-3 mb-md-0 me-md-3" style="display: inline-flex; align-items: center; gap: 0.375rem;">
+                      <img src="https://psychology.org.au/APS/assets/images/aboriginal-flag.svg" width="40" height="24" alt="Aboriginal Flag" class="img-fluid" style="width: 40px; height: 24px;">
+                      <img src="https://psychology.org.au/APS/assets/images/torres-strait-islanders-flag.svg" width="40" height="24" alt="Torres Strait Islanders Flag" class="img-fluid" style="width: 40px; height: 24px;">
                     </div>
+                    <p class="acknowledgement mb-0" style="color: white;">
+                      The APS acknowledge Aboriginal and Torres Strait Islander peoples as Australia's First People and Traditional Custodians and pay our respects to Elders past, present and emerging.
+                    </p>
                   </div>
                 </div>
-                
-                <!-- Bottom Links and Copyright -->
-                <div class="row">
-                  <div class="col-md-6">
-                  <div class="col-md-6">
-                  <nav class="footer-bottom-links" aria-label="Legal Information">
-                    <a href="https://psychology.org.au/special-pages/privacy-policy">Privacy</a>
-                    <a href="https://psychology.org.au/special-pages/terms-and-conditions">Terms and conditions of use</a>
+              </div>
+              
+              <!-- Bottom Links and Copyright -->
+              <div class="row">
+                <div class="col-md-6">
+                  <nav class="footer-bottom-links" aria-label="Legal Information" style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                    <a href="https://psychology.org.au/special-pages/privacy-policy" style="font-size: 0.6875rem; font-weight: 600; color: rgba(215, 237, 248, 0.5); text-decoration: none;">Privacy</a>
+                    <a href="https://psychology.org.au/special-pages/terms-and-conditions" style="font-size: 0.6875rem; font-weight: 600; color: rgba(215, 237, 248, 0.5); text-decoration: none;">Terms and conditions of use</a>
                   </nav>
                 </div>
                 <div class="col-md-6 text-md-end">
-                  <p class="copyright mb-0">
+                  <p class="copyright mb-0" style="font-size: 0.6875rem; color: rgba(215, 237, 248, 0.5); margin-bottom: 0;">
                     © ${new Date().getFullYear()} The Australian Psychological Society Limited. ACN 000543788. All Rights Reserved.
                   </p>
                 </div>
@@ -370,12 +524,14 @@
     } catch (err) {
       logError('initClassifiedsHelper', err);
     }
-  }
-  
+  }  
   // ------------------------------------------------------------
   // Main initialization
   // ------------------------------------------------------------
   function init() {
+    // Add critical styles first
+    addCriticalStyles();
+    
     // Ensure Font Awesome is available
     ensureFontAwesome();
     
